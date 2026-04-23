@@ -24,8 +24,12 @@
 **/*.bin
 **/*.mem
 
-# Optional: Vivado project file (ignore if using TCL flow)
-# *.xpr
+*.xpr
+
+# Optional generated outputs
+*.dcp
+*.bit
+*.ltx
 
 # =========================
 # Vitis / SDK
@@ -33,6 +37,10 @@
 .sdk/
 .vitis/
 .metadata/
+
+VITIS/.metadata/
+VITIS/**/Debug/
+VITIS/**/Release/
 
 # =========================
 # OS files
