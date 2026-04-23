@@ -45,4 +45,4 @@ Open Vivado TCL console and run:
 
 ```tcl
 cd "FLASH_LED_PROJ/SCRIPTS"
-source recreate_project.tcl
+source recreate_flash_led_proj.tcl

@@ -18,40 +18,23 @@
 # NOTE: In order to use this script for source control purposes, please make sure that the
 #       following files are added to the source control system:-
 #
-# 1. This project restoration tcl script (recreate_project.tcl) that was generated.
-#
-# 2. The following source(s) files that were local or imported into the original project.
-#    (Please see the '$orig_proj_dir' and '$origin_dir' variable setting below at the start of the script)
-#
-#    "C:/FPGA/AXI_LITE_CTRL_PERIPH/AXI_LITE_CTRL_PERIPH_proj/AXI_LITE_CTRL_PERIPH_proj.srcs/utils_1/imports/synth_1/design_1_wrapper.dcp"
-#
-# 3. The following remote source files that were added to the original project:-
-#
-#    "C:/FPGA/AXI_LITE_CTRL_PERIPH/ip_repo/my_axi_led2_1_0/hdl/my_axi_led2_slave_lite_v1_0_S00_AXI.v"
-#    "C:/FPGA/AXI_LITE_CTRL_PERIPH/ip_repo/my_axi_led2_1_0/hdl/my_axi_led2.v"
-#    "C:/FPGA/AXI_LITE_CTRL_PERIPH/XDC/led_constraints.xdc"
-#    "C:/FPGA/AXI_LITE_CTRL_PERIPH/SIM/tb_my_axi_led2_slave_lite_v1_0_S00_AXI.v"
+# Required source-controlled inputs:
+# - ip_repo/
+# - XDC/led_constraints.xdc
+# - SIM/tb_my_axi_led2_slave_lite_v1_0_S00_AXI.v
+# - this recreate_project.tcl script
 #
 #*****************************************************************************************
 
 # Check file required for this script exists
 proc checkRequiredFiles { origin_dir} {
   set status true
-  set files [list \
- "[file normalize "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/AXI_LITE_CTRL_PERIPH_proj/AXI_LITE_CTRL_PERIPH_proj.srcs/utils_1/imports/synth_1/design_1_wrapper.dcp"]"\
-  ]
-  foreach ifile $files {
-    if { ![file isfile $ifile] } {
-      puts " Could not find local file $ifile "
-      set status false
-    }
-  }
 
   set files [list \
- "[file normalize "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/ip_repo/my_axi_led2_1_0/hdl/my_axi_led2_slave_lite_v1_0_S00_AXI.v"]"\
- "[file normalize "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/ip_repo/my_axi_led2_1_0/hdl/my_axi_led2.v"]"\
- "[file normalize "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/XDC/led_constraints.xdc"]"\
- "[file normalize "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/SIM/tb_my_axi_led2_slave_lite_v1_0_S00_AXI.v"]"\
+ "[file normalize "$origin_dir/ip_repo/my_axi_led2_1_0/hdl/my_axi_led2_slave_lite_v1_0_S00_AXI.v"]"\
+ "[file normalize "$origin_dir/ip_repo/my_axi_led2_1_0/hdl/my_axi_led2.v"]"\
+ "[file normalize "$origin_dir/XDC/led_constraints.xdc"]"\
+ "[file normalize "$origin_dir/SIM/tb_my_axi_led2_slave_lite_v1_0_S00_AXI.v"]"\
   ]
   foreach ifile $files {
     if { ![file isfile $ifile] } {
@@ -60,10 +43,10 @@ proc checkRequiredFiles { origin_dir} {
     }
   }
 
-  set paths [list \
- "[file normalize "$origin_dir/[file normalize "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/ip_repo/my_axi_led2_1_0"]"]"\
- "[file normalize "$origin_dir/[file normalize "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/ip_repo/my_axi_led_1_0"]"]"\
-  ]
+set paths [list \
+ "[file normalize "$origin_dir/ip_repo/my_axi_led2_1_0"]" \
+ "[file normalize "$origin_dir/ip_repo/my_axi_led_1_0"]" \
+]
   foreach ipath $paths {
     if { ![file isdirectory $ipath] } {
       puts " Could not access $ipath "
@@ -74,7 +57,7 @@ proc checkRequiredFiles { origin_dir} {
   return $status
 }
 # Set the reference directory for source file relative paths (by default the value is script directory path)
-set origin_dir "."
+set origin_dir [file normalize [file dirname [info script]]/..]
 
 # Use origin directory path location variable, if specified in the tcl shell
 if { [info exists ::origin_dir_loc] } {
@@ -137,8 +120,7 @@ if { $::argc > 0 } {
   }
 }
 
-# Set the directory path for the original project from where this script was exported
-set orig_proj_dir "[file normalize "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/AXI_LITE_CTRL_PERIPH_proj"]"
+
 
 # Check for paths and files needed for project creation
 set validate_required 0
@@ -152,7 +134,7 @@ if { $validate_required } {
 }
 
 # Create project
-create_project ${_xil_proj_name_} ./${_xil_proj_name_} -part xc7a35tcpg236-1
+create_project ${_xil_proj_name_} "$origin_dir/build/${_xil_proj_name_}" -part xc7a35tcpg236-1
 
 # Set the directory path for the new project
 set proj_dir [get_property directory [current_project]]
@@ -192,17 +174,15 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 # Set IP repository paths
 set obj [get_filesets sources_1]
 if { $obj != {} } {
-   set_property "ip_repo_paths" "[file normalize "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/ip_repo/my_axi_led2_1_0"] [file normalize "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/ip_repo/my_axi_led_1_0"]" $obj
-
-   # Rebuild user ip_repo's index before adding any source files
-   update_ip_catalog -rebuild
+   set_property ip_repo_paths "$origin_dir/ip_repo" [current_project]
+update_ip_catalog
 }
 
 # Set 'sources_1' fileset object
 set obj [get_filesets sources_1]
 set files [list \
- [file normalize "${origin_dir}/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/ip_repo/my_axi_led2_1_0/hdl/my_axi_led2_slave_lite_v1_0_S00_AXI.v"] \
- [file normalize "${origin_dir}/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/ip_repo/my_axi_led2_1_0/hdl/my_axi_led2.v"] \
+ [file normalize "${origin_dir}/ip_repo/my_axi_led2_1_0/hdl/my_axi_led2_slave_lite_v1_0_S00_AXI.v"] \
+ [file normalize "${origin_dir}/ip_repo/my_axi_led2_1_0/hdl/my_axi_led2.v"] \
 ]
 add_files -norecurse -fileset $obj $files
 
@@ -226,9 +206,9 @@ if {[string equal [get_filesets -quiet constrs_1] ""]} {
 set obj [get_filesets constrs_1]
 
 # Add/Import constrs file and set constrs file properties
-set file "[file normalize "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/XDC/led_constraints.xdc"]"
+set file "[file normalize "$origin_dir/XDC/led_constraints.xdc"]"
 set file_added [add_files -norecurse -fileset $obj [list $file]]
-set file "$origin_dir/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/XDC/led_constraints.xdc"
+set file "$origin_dir/XDC/led_constraints.xdc"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
 set_property -name "file_type" -value "XDC" -objects $file_obj
@@ -244,7 +224,7 @@ if {[string equal [get_filesets -quiet sim_1] ""]} {
 # Set 'sim_1' fileset object
 set obj [get_filesets sim_1]
 set files [list \
- [file normalize "${origin_dir}/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/SIM/tb_my_axi_led2_slave_lite_v1_0_S00_AXI.v"] \
+ [file normalize "${origin_dir}/SIM/tb_my_axi_led2_slave_lite_v1_0_S00_AXI.v"] \
 ]
 add_files -norecurse -fileset $obj $files
 
@@ -261,28 +241,9 @@ set_property -name "top" -value "tb_my_axi_led2_slave_lite_v1_0_S00_AXI" -object
 set_property -name "top_auto_set" -value "0" -objects $obj
 set_property -name "top_lib" -value "xil_defaultlib" -objects $obj
 
-# Set 'utils_1' fileset object
-set obj [get_filesets utils_1]
-# Import local files from the original project
-set files [list \
- [file normalize "${origin_dir}/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/AXI_LITE_CTRL_PERIPH_proj/AXI_LITE_CTRL_PERIPH_proj.srcs/utils_1/imports/synth_1/design_1_wrapper.dcp" ]\
-]
-set imported_files ""
-foreach f $files {
-  lappend imported_files [import_files -fileset utils_1 $f]
-}
-
-# Set 'utils_1' fileset file properties for remote files
-# None
-
-# Set 'utils_1' fileset file properties for local files
-set file "synth_1/design_1_wrapper.dcp"
-set file_obj [get_files -of_objects [get_filesets utils_1] [list "*$file"]]
-set_property -name "netlist_only" -value "0" -objects $file_obj
 
 
-# Set 'utils_1' fileset properties
-set obj [get_filesets utils_1]
+
 
 
 # Adding sources referenced in BDs, if not already added
@@ -629,7 +590,7 @@ set_property SYNTH_CHECKPOINT_MODE "Hierarchical" [get_files design_1.bd ]
 
 #call make_wrapper to create wrapper files
 if { [get_property IS_LOCKED [ get_files -norecurse [list design_1.bd]] ] == 1  } {
-  import_files -fileset sources_1 [file normalize "${origin_dir}/../../../../../../FPGA/AXI_LITE_CTRL_PERIPH/AXI_LITE_CTRL_PERIPH_proj/AXI_LITE_CTRL_PERIPH_proj.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v" ]
+  import_files -fileset sources_1 [file normalize "${origin_dir}/AXI_LITE_CTRL_PERIPH_proj/AXI_LITE_CTRL_PERIPH_proj.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v" ]
 } else {
   set wrapper_path [make_wrapper -fileset sources_1 -files [ get_files -norecurse [list design_1.bd]] -top]
   add_files -norecurse -fileset sources_1 $wrapper_path
@@ -662,7 +623,7 @@ if { $obj != "" } {
 
 }
 set obj [get_runs synth_1]
-set_property -name "incremental_checkpoint" -value "$proj_dir/${_xil_proj_name_}.srcs/utils_1/imports/synth_1/design_1_wrapper.dcp" -objects $obj
+
 set_property -name "auto_incremental_checkpoint" -value "1" -objects $obj
 set_property -name "strategy" -value "Vivado Synthesis Defaults" -objects $obj
 

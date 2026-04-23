@@ -72,5 +72,5 @@ Open Vivado TCL console and run:
 
 ```tcl
 cd "AXI_LITE_CTRL_PERIPH/SCRIPTS"
-source recreate_project.tcl
+source recreate_axi_lite_ctrl_periph.tcl
 ```

@@ -2,6 +2,8 @@
 # Vivado (ALL subprojects)
 # =========================
 
+build/
+
 # Logs & temp files
 *.jou
 *.log
