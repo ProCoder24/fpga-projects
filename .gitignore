@@ -1,18 +1,41 @@
-# Vivado junk (applies to ALL subprojects)
+# =========================
+# Vivado (ALL subprojects)
+# =========================
+
+# Logs & temp files
 *.jou
 *.log
 *.str
 *.pb
 *.wdb
 
-.cache/
-.hw/
-.ip_user_files/
-.sim/
-.runs/
-.gen/
-.Xil/
+# Project-generated folders (recursive)
+**/.cache/
+**/.hw/
+**/.ip_user_files/
+**/.sim/
+**/.runs/
+**/.gen/
+**/.Xil/
 
-# OS
+# Simulation outputs
+**/xsim.dir/
+**/*.exe
+**/*.bin
+**/*.mem
+
+# Optional: Vivado project file (ignore if using TCL flow)
+# *.xpr
+
+# =========================
+# Vitis / SDK
+# =========================
+.sdk/
+.vitis/
+.metadata/
+
+# =========================
+# OS files
+# =========================
 .DS_Store
 Thumbs.db
