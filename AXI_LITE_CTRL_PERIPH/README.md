@@ -30,7 +30,7 @@ Read operations allow software to verify the register contents.
 
 ## Simulation
 
-![AXI-Lite Simulation](./SIM/axi_lite_simulation.png)
+![AXI-Lite Simulation](./DOCS/Images/AXI_Sim.png)
 
 The simulation validates correct AXI-Lite protocol behavior and register functionality.
 
