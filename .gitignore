@@ -9,27 +9,32 @@
 *.pb
 *.wdb
 
-# Project-generated folders (recursive)
-**/.cache/
-**/.hw/
-**/.ip_user_files/
-**/.sim/
-**/.runs/
-**/.gen/
-**/.Xil/
-
-# Simulation outputs
-**/xsim.dir/
-**/*.exe
-**/*.bin
-**/*.mem
-
+# Vivado project files
 *.xpr
-
-# Optional generated outputs
 *.dcp
 *.bit
 *.ltx
+*.hwdef
+*.sysdef
+
+# Generated Vivado folders
+**/.Xil/
+**/xsim.dir/
+**/*.cache/
+**/*.gen/
+**/*.hw/
+**/*.ip_user_files/
+**/*.runs/
+**/*.sim/
+
+# Explicit project folders
+AXI_LITE_CTRL_PERIPH/AXI_LITE_CTRL_PERIPH_proj/
+AXI_LITE_CTRL_PERIPH/SCRIPTS/*_proj/
+
+# Simulation outputs
+**/*.exe
+**/*.bin
+**/*.mem
 
 # =========================
 # Vitis / SDK
@@ -37,7 +42,6 @@
 .sdk/
 .vitis/
 .metadata/
-
 VITIS/.metadata/
 VITIS/**/Debug/
 VITIS/**/Release/
