@@ -1,0 +1,1 @@
+--incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "xilinx_vip" -L "unisims_ver" -L "unimacro_ver" -L "secureip" -L "xpm" --snapshot "tb_my_axi_led2_slave_lite_v1_0_S00_AXI_behav" "xil_defaultlib.tb_my_axi_led2_slave_lite_v1_0_S00_AXI" "xil_defaultlib.glbl" -log "elaborate.log" 

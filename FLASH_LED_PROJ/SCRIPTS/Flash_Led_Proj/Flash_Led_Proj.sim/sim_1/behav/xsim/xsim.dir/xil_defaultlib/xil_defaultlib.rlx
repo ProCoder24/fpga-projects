@@ -1,0 +1,7 @@
+0.7
+2020.2
+Nov 14 2025
+19:37:27
+C:/Users/ALL_PWR/Documents/FPGA PROJECTS/FLASH_LED_PROJ/SCRIPTS/Flash_Led_Proj/Flash_Led_Proj.sim/sim_1/behav/xsim/glbl.v,1756381829,verilog,,,,glbl,,,,,,,,
+C:/Users/ALL_PWR/Documents/FPGA PROJECTS/FLASH_LED_PROJ/SIM/led_flash_tb.v,1776428498,verilog,,,,led_flash_tb,,,../../../../../../../../../../../AMDDesignTools/2025.2/Vivado/data/rsb/busdef,,,,,
+C:/Users/ALL_PWR/Documents/FPGA PROJECTS/FLASH_LED_PROJ/SRC/led_flash.v,1776428809,verilog,,C:/Users/ALL_PWR/Documents/FPGA PROJECTS/FLASH_LED_PROJ/SIM/led_flash_tb.v,,led_flash,,,../../../../../../../../../../../AMDDesignTools/2025.2/Vivado/data/rsb/busdef,,,,,

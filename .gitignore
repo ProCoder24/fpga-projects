@@ -1,0 +1,18 @@
+# Vivado junk (applies to ALL subprojects)
+*.jou
+*.log
+*.str
+*.pb
+*.wdb
+
+.cache/
+.hw/
+.ip_user_files/
+.sim/
+.runs/
+.gen/
+.Xil/
+
+# OS
+.DS_Store
+Thumbs.db
